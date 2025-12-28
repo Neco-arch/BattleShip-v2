@@ -39,7 +39,7 @@ class PlayerClass {
     }
   }
 
-  // Place Ship for computer
+  // Place Ship for Computer Player
   RandomPlacementForComputer() {
     for (let i = 0; i < this.Shiplen.length; i++) {
       const ship = new ShipFactory(this.Shiplen[i]);
@@ -55,8 +55,11 @@ class PlayerClass {
     }
   }
 
+  //Random Attack for Computer Player
   RandomAttackForComputer() {
-    
+    const row = Math.floor(Math.random() * 10);
+    const column = Math.floor(Math.random() * 10);
+    this.ReceiveAttackFromAnotherPlayer("Computer" , row , column)
   }
 
 
