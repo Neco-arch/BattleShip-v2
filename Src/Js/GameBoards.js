@@ -1,6 +1,5 @@
 import { ShipFactory } from "./Shipclass";
 
-
 class GameBoard {
   constructor() {
     this.board = Array(10)
@@ -37,7 +36,6 @@ class GameBoard {
         break;
       }
     }
-
     // Place Ship
     if (Is_Valid) {
       for (let j = 0; j < length; j++) {
@@ -55,32 +53,33 @@ class GameBoard {
 
         this.Ships.push(ship);
       }
+      return true
     }
+    return false
   }
 
   // ReceiveAttack
   receiveAttack(Row, Column) {
     if (Row > 9 || Row < 0 || Column > 9 || Column < 0) {
-      return;
+      return "Invalid Position";
     }
 
     if (this.board[Row][Column] instanceof ShipFactory) {
       const Shipclass = this.board[Row][Column];
       Shipclass.hit();
-      this.board[Row][Column] = "hit"
-      if (Shipclass.Check_Ship() === "Sunk") {
-
-      }
+      this.board[Row][Column] = "hit";
+      return true
     }
-    if (!(this.board[Row][Column] instanceof  ShipFactory)) {
+    if (!(this.board[Row][Column] instanceof ShipFactory)) {
       this.board[Row][Column] === "miss";
       this.MissedShot.push([Row, Column]);
+      return false
     }
   }
 
   AreAllShipSunk() {
-    return this.Ships.every(ship => ship.isSunk());
+    return this.Ships.every((ship) => ship.Check_Ship());
   }
 }
 
-export { GameBoard }
+export { GameBoard };
