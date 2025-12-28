@@ -1,3 +1,6 @@
+import { ShipFactory } from "./Shipclass";
+
+
 class GameBoard {
   constructor() {
     this.board = Array(10)
@@ -29,7 +32,6 @@ class GameBoard {
         Is_Valid = false;
         break;
       }
-
       if (this.board[column][row] === ship) {
         Is_Valid = false;
         break;
@@ -40,13 +42,13 @@ class GameBoard {
     if (Is_Valid) {
       for (let j = 0; j < length; j++) {
         if (Orientation === "Horizontal") {
-          row = StartRow + i;
+          row = StartRow + j;
           column = StartColumn;
         }
 
         if (Orientation === "Vertical") {
           row = StartRow;
-          column = StartColumn + i;
+          column = StartColumn + j;
         }
 
         this.board[column][row] = ship;
@@ -62,15 +64,15 @@ class GameBoard {
       return;
     }
 
-    if (this.board[Row][Column] === ship) {
-      const Shipclass = ship;
+    if (this.board[Row][Column] instanceof ShipFactory) {
+      const Shipclass = this.board[Row][Column];
       Shipclass.hit();
       this.board[Row][Column] = "hit"
       if (Shipclass.Check_Ship() === "Sunk") {
 
       }
     }
-    if (this.board[Row][Column] !== ship) {
+    if (!(this.board[Row][Column] instanceof  ShipFactory)) {
       this.board[Row][Column] === "miss";
       this.MissedShot.push([Row, Column]);
     }
