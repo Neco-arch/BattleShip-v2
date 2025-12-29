@@ -6,8 +6,13 @@ class PlayerClass {
     this.PlayerBoard = new GameBoard();
     this.ComputerBoard = new GameBoard();
     this.Shiplen = [5, 4, 3, 3, 2];
+    this.CurrentTurn = null
   }
 
+  StartGame() {
+    this.ResetBoard()
+    this.CurrentTurn = "Player"
+  }
   // Reset Board for everyplayer
   ResetBoard() {
     this.PlayerBoard = new Array(10).fill(null).map(() => Array(10).fill(null));
@@ -21,8 +26,8 @@ class PlayerClass {
   }
 
   // Receive attack from another player
-  ReceiveAttackFromAnotherPlayer(CurrentTurn, Row, Column) {
-    if (CurrentTurn === "Player") {
+  ReceiveAttackFromAnotherPlayer(Row, Column) {
+    if (this.CurrentTurn === "Player") {
       const ActiveAttackFun = this.ComputerBoard.receiveAttack(Row, Column);
       if (!ActiveAttackFun) {
         this.ComputerBoard.MissedShot.push([Row, Column]);
@@ -30,7 +35,7 @@ class PlayerClass {
       return this.ComputerBoard.AreAllShipSunk();
     }
 
-    if (CurrentTurn === "Computer") {
+    if (this.CurrentTurn === "Computer") {
       const ActiveAttackFun = this.PlayerBoard.receiveAttack(Row, Column);
       if (!ActiveAttackFun) {
         this.ComputerBoard.MissedShot.push([Row, Column]);

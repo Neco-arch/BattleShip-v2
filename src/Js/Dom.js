@@ -12,6 +12,7 @@ class Dom {
 
   //CreateBoard 10x10
   CreateBoard10x10(Dom_class) {
+    Dom_class.innerHTML = "";
     for (let i = 0; i < 10; i++) {
       const Column = document.createElement("div");
       Column.className = "Column";
@@ -24,6 +25,11 @@ class Dom {
       }
       Dom_class.appendChild(Column);
     }
+  }
+
+  // Reset Board
+  ResetBoard() {
+    this.CreateBoardOnDiv();
   }
 
   //Change turn (Background Color)
@@ -43,21 +49,40 @@ class Dom {
     return false;
   }
 
-  PlaceShipOnBoard(Column, Row) {}
+  // Place a ship on the board
+  PlaceShipOnBoard(Column, Row) {
+    const cell = document.querySelector(
+      `[data-col="${Column}"][data-row="${Row}"]`
+    );
+    cell.style.backgroundColor = "white";
+  }
 
-  MakeStartButtondisappearandreappear() {
-    
+  // Make Buttons appear and reappear
+  MakeButtonsdisappearandreappear(GameStatus) {
+    const Start_Button = document.querySelector(".Start_Game");
+    const Randomize_Button = document.querySelector(".Randomize");
+    if (GameStatus === "ended") {
+      Start_Button.style.display = "block";
+      Randomize_Button.style.display = "block";
+    }
+
+    if (GameStatus === "Started") {
+      Start_Button.style.display = "None";
+      Randomize_Button.style.display = "None";
+    }
+  }
+
+  AttackBoard(Column, Row, AttackStatus) {
+    const cell = document.querySelector(
+      `[data-col="${Column}"][data-row="${Row}"]`
+    );
+    if (AttackStatus === "hit") {
+      cell.style.backgroundColor = "Red"
+    }
+
+    if (AttackStatus === "miss") {
+      cell.style.backgroundColor = "white"
+    }
   }
 }
-
-const Test = new Dom();
-
-Test.CreateBoardOnDiv();
-Test.ChangeTurn("Player");
-
-setTimeout(function () {
-  Test.ChangeTurn("Computer");
-  console.log("Hello");
-}, 5000);
-
 export { Dom };
