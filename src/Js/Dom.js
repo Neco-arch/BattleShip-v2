@@ -1,9 +1,12 @@
 class Dom {
+
+    constructor() {
+        this.playerBoard = document.querySelector(".Player_Board");
+        this.computerBoard = document.querySelector(".Computer_Board");
+    }
   CreateBoardOnDiv() {
-    const playerBoard = document.querySelector(".Player_Board");
-    const computerBoard = document.querySelector(".Computer_Board");
-    this.CreateBoard10x10(playerBoard);
-    this.CreateBoard10x10(computerBoard);
+    this.CreateBoard10x10(this.playerBoard);
+    this.CreateBoard10x10(this.computerBoard);
   }
 
   CreateBoard10x10(Dom_class) {
@@ -19,6 +22,14 @@ class Dom {
       }
       Dom_class.appendChild(Column);
     }
+  }
+
+  ChangeTurn(CurrentTurn) {
+
+  }
+
+  PlaceShipOnBoard(Column,Row) {
+
   }
 }
 

@@ -10,15 +10,22 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="Style.css" />
   </head>
   <body>
-    <div class="Player_Side">
-      <div class="Player_Board"></div>
-      <button type="button" class="Randomize">Random Position</button>
-    </div>
-    <div class="Computer_Side">
-      <div class="Computer_Board"></div>
+    <div class="Wrapper">
+      <div class="Player_Side">
+        <h2 class="BoardTag">Player</h2>
+        <div class="Player_Board"></div>
+        <div class="ButtonWrapper">
+          <button type="button" class="Randomize">Random Position</button>
+          <button type="button" class="Start_Game">Start Game</button>
+        </div>
+      </div>
+      <div class="Computer_Side">
+        <h2 class="BoardTag">Computer</h2>
+        <div class="Computer_Board"></div>
+      </div>
     </div>
   </body>
 </html>
