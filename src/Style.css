@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background-color: #145587
+}
+
+.Player_Side , .ComputerSide {
+    width: 50%;
+    height: 100vh;
+}
