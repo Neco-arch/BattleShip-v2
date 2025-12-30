@@ -85,7 +85,7 @@ ResetBoardForPlayer() {
         const row = Math.floor(Math.random() * 10);
         const column = Math.floor(Math.random() * 10);
         const orientation = Math.random() > 0.5 ? "Horizontal" : "Vertical";
-        console.log(this.PlayerBoard.PlaceShip)
+        placed = this.PlayerBoard.PlaceShip(ship, row, column, orientation);
       }
   }
 }

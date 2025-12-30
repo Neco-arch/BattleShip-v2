@@ -53,14 +53,12 @@ class Dom {
 
   // Display Player ship
   RenderPlayerBoard(playerBoard) {
-    console.log("Hello")
     for (let i = 0 ; i < 10 ; i++) {
       for (let j = 0 ; j < 10 ; j++) {
-        if (playerBoard[i][j] instanceof ShipFactory) {
-          const cell = playerBoard[i][j]
-          cell.style.backgroundColor = "Blue"
-        } else {
-          continue
+        const cell = playerBoard[i][j]
+        if (cell instanceof ShipFactory) {
+          const StyleCell = document.querySelector(`[data-row="${j}"][data-col="${i}"]`);
+          StyleCell.style.backgroundColor = "blue"
         }
       }
     }

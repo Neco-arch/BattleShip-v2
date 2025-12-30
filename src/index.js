@@ -19,7 +19,9 @@ import "./Style.css";
   });
 
   document.querySelector(".Randomize").addEventListener("click" , () => {
+    DomController.ResetBoard()
     AllPlayer.ResetBoardForPlayer();
     AllPlayer.RandomPlacementForPlayer();
+    DomController.RenderPlayerBoard(AllPlayer.PlayerBoard.board)
   })
 })();
