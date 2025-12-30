@@ -1,7 +1,9 @@
 import { ShipFactory } from "./Shipclass";
+import { Dom } from "./Dom";
 
 class GameBoard {
   constructor() {
+    this.DomController = new Dom()
     this.board = Array(10)
       .fill(null)
       .map(() => Array(10).fill(null));
@@ -50,7 +52,6 @@ class GameBoard {
         }
 
         this.board[column][row] = ship;
-
         this.Ships.push(ship);
       }
       return true

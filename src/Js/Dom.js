@@ -1,3 +1,5 @@
+import { ShipFactory } from "./Shipclass";
+
 class Dom {
   constructor() {
     this.playerBoard = document.querySelector(".Player_Board");
@@ -49,12 +51,19 @@ class Dom {
     return false;
   }
 
-  // Place a ship on the board
-  PlaceShipOnBoard(Column, Row) {
-    const cell = document.querySelector(
-      `[data-col="${Column}"][data-row="${Row}"]`
-    );
-    cell.style.backgroundColor = "white";
+  // Display Player ship
+  RenderPlayerBoard(playerBoard) {
+    console.log("Hello")
+    for (let i = 0 ; i < 10 ; i++) {
+      for (let j = 0 ; j < 10 ; j++) {
+        if (playerBoard[i][j] instanceof ShipFactory) {
+          const cell = playerBoard[i][j]
+          cell.style.backgroundColor = "Blue"
+        } else {
+          continue
+        }
+      }
+    }
   }
 
   // Make Buttons appear and reappear
@@ -67,21 +76,22 @@ class Dom {
     }
 
     if (GameStatus === "Started") {
+      A;
       Start_Button.style.display = "None";
       Randomize_Button.style.display = "None";
     }
   }
 
-  AttackBoard(Column, Row, AttackStatus) {
-    const cell = document.querySelector(
-      `[data-col="${Column}"][data-row="${Row}"]`
-    );
-    if (AttackStatus === "hit") {
-      cell.style.backgroundColor = "Red"
-    }
+  // AttackBoard (Change Color Cell board)
+  AttackBoard(Element, AttackStatus) {
+    if (Element) {
+      if (AttackStatus === "hit") {
+        Element.style.backgroundColor = "Red";
+      }
 
-    if (AttackStatus === "miss") {
-      cell.style.backgroundColor = "white"
+      if (AttackStatus === "miss") {
+        Element.style.backgroundColor = "White";
+      }
     }
   }
 }
