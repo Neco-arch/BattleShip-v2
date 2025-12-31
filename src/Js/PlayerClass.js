@@ -6,53 +6,41 @@ class PlayerClass {
     this.PlayerBoard = new GameBoard();
     this.ComputerBoard = new GameBoard();
     this.Shiplen = [5, 4, 3, 3, 2];
-    this.CurrentTurn = null;
-  }
-
-  StartGame() {
-    this.ResetBoard();
     this.CurrentTurn = "Player";
   }
 
-  // Reset Computer board
-ResetBoardForComputer() {
-  this.ComputerBoard.board = Array(10)
-    .fill(null)
-    .map(() => Array(10).fill(null));
-  this.ComputerBoard.MissedShot = [];
-  this.ComputerBoard.Ships = [];
-}
-// Reset Player board
-ResetBoardForPlayer() {
-  this.PlayerBoard.board = Array(10)
-    .fill(null)
-    .map(() => Array(10).fill(null));
-  this.PlayerBoard.MissedShot = [];
-  this.PlayerBoard.Ships = [];
-}
-
-  // Receive attack from another player
-  ReceiveAttackFromAnotherPlayer(Row, Column) {
-    if (this.CurrentTurn === "Player") {
-      const ActiveAttackFun = this.ComputerBoard.receiveAttack(Row, Column);
-      if (!ActiveAttackFun) {
-        this.ComputerBoard.MissedShot.push([Row, Column]);
-      }
-      return this.ComputerBoard.AreAllShipSunk();
-    }
-
-    if (this.CurrentTurn === "Computer") {
-      const ActiveAttackFun = this.PlayerBoard.receiveAttack(Row, Column);
-      if (!ActiveAttackFun) {
-        this.ComputerBoard.MissedShot.push([Row, Column]);
-      }
-      return this.PlayerBoard.AreAllShipSunk();
-    }
+  StartGame() {
+    this.ResetBoardForComputer();
+    this.ResetBoardForPlayer();
+    this.CurrentTurn = "Player";
   }
 
-  // Place Ship for Computer Player
+  ResetBoardForComputer() {
+    this.ComputerBoard = new GameBoard();
+  }
+
+  ResetBoardForPlayer() {
+    this.PlayerBoard = new GameBoard();
+  }
+
+  ReceiveAttackFromAnotherPlayer(Row, Column) {
+    let boardToAttack;
+    let nextTurn;
+
+    if (this.CurrentTurn === "Player") {
+      boardToAttack = this.ComputerBoard;
+      nextTurn = "Computer";
+    } else {
+      boardToAttack = this.PlayerBoard;
+      nextTurn = "Player";
+    }
+
+    const result = boardToAttack.receiveAttack(Row, Column);
+    this.CurrentTurn = nextTurn;
+    return result ? "hit" : "miss";
+  }
+
   RandomPlacementForComputer() {
-    this.ResetBoardForComputer();
     for (let i = 0; i < this.Shiplen.length; i++) {
       const ship = new ShipFactory(this.Shiplen[i]);
       let placed = false;
@@ -61,34 +49,42 @@ ResetBoardForPlayer() {
         const row = Math.floor(Math.random() * 10);
         const column = Math.floor(Math.random() * 10);
         const orientation = Math.random() > 0.5 ? "Horizontal" : "Vertical";
-
         placed = this.ComputerBoard.PlaceShip(ship, row, column, orientation);
       }
     }
   }
 
-  //Random Attack for Computer Player
-  RandomAttackForComputer() {
-    this.ResetBoardForComputer()
-    const row = Math.floor(Math.random() * 10);
-    const column = Math.floor(Math.random() * 10);
-    this.ReceiveAttackFromAnotherPlayer("Computer", row, column);
-  }
-
-  // Random Placement for player (Optional)
   RandomPlacementForPlayer() {
     for (let i = 0; i < this.Shiplen.length; i++) {
       const ship = new ShipFactory(this.Shiplen[i]);
       let placed = false;
-      
+
       while (!placed) {
         const row = Math.floor(Math.random() * 10);
         const column = Math.floor(Math.random() * 10);
         const orientation = Math.random() > 0.5 ? "Horizontal" : "Vertical";
         placed = this.PlayerBoard.PlaceShip(ship, row, column, orientation);
       }
+    }
   }
-}
+
+  RandomAttackForComputer() {
+    let attacked = false;
+
+    while (!attacked) {
+      const row = Math.floor(Math.random() * 10);
+      const col = Math.floor(Math.random() * 10);
+
+      if (
+        this.PlayerBoard.board[row][col] !== "hit" &&
+        this.PlayerBoard.board[row][col] !== "miss"
+      ) {
+        const result = this.ReceiveAttackFromAnotherPlayer(row, col);
+        attacked = true;
+        return { row, col, result };
+      }
+    }
+  }
 }
 
 export { PlayerClass };

@@ -1,85 +1,65 @@
 import { ShipFactory } from "./Shipclass";
-import { Dom } from "./Dom";
 
 class GameBoard {
   constructor() {
-    this.DomController = new Dom()
-    this.board = Array(10)
-      .fill(null)
-      .map(() => Array(10).fill(null));
+    this.board = Array(10).fill(null).map(() => Array(10).fill(null));
     this.MissedShot = [];
     this.Ships = [];
   }
 
-  // Check Position
+  // Place Ship
   PlaceShip(ship, StartRow, StartColumn, Orientation) {
-    const length = ship.length; // Ship length
-    let row;
-    let column;
+    const length = ship.length;
+    let row, column;
     let Is_Valid = true;
 
-    // Calculate Condition
     for (let i = 0; i < length; i++) {
-      if (Orientation === "Horizontal") {
-        row = StartRow + i;
-        column = StartColumn;
-      }
-      if (Orientation === "Vertical") {
-        row = StartRow;
-        column = StartColumn + i;
-      }
+      row = Orientation === "Horizontal" ? StartRow : StartRow + i;
+      column = Orientation === "Horizontal" ? StartColumn + i : StartColumn;
 
       if (row < 0 || row >= 10 || column < 0 || column >= 10) {
         Is_Valid = false;
         break;
       }
-      if (this.board[column][row] === ship) {
+      if (this.board[row][column] instanceof ShipFactory) {
         Is_Valid = false;
         break;
       }
     }
-    // Place Ship
+
     if (Is_Valid) {
-      for (let j = 0; j < length; j++) {
-        if (Orientation === "Horizontal") {
-          row = StartRow + j;
-          column = StartColumn;
-        }
-
-        if (Orientation === "Vertical") {
-          row = StartRow;
-          column = StartColumn + j;
-        }
-
-        this.board[column][row] = ship;
-        this.Ships.push(ship);
+      for (let i = 0; i < length; i++) {
+        row = Orientation === "Horizontal" ? StartRow : StartRow + i;
+        column = Orientation === "Horizontal" ? StartColumn + i : StartColumn;
+        this.board[row][column] = ship;
       }
-      return true
+      this.Ships.push(ship);
+      return true;
     }
-    return false
+    return false;
   }
 
-  // ReceiveAttack
+  // Receive Attack
   receiveAttack(Row, Column) {
-    if (Row > 9 || Row < 0 || Column > 9 || Column < 0) {
-      return "Invalid Position";
-    }
+    if (Row < 0 || Row > 9 || Column < 0 || Column > 9) return "Invalid Position";
 
     if (this.board[Row][Column] instanceof ShipFactory) {
-      const Shipclass = this.board[Row][Column];
-      Shipclass.hit();
+      const ship = this.board[Row][Column];
+      ship.hit();
       this.board[Row][Column] = "hit";
-      return true
-    }
-    if (!(this.board[Row][Column] instanceof ShipFactory)) {
-      this.board[Row][Column] === "miss";
+      return true;
+    } else if (this.board[Row][Column] === null) {
+      this.board[Row][Column] = "miss";
       this.MissedShot.push([Row, Column]);
-      return false
+      return false;
+    } else {
+      // Already hit or miss
+      return false;
     }
   }
 
   AreAllShipSunk() {
-    return this.Ships.every((ship) => ship.Check_Ship());
+    return this.Ships.every(ship => ship.Check_Ship());
   }
 }
 

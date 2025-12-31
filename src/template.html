@@ -19,7 +19,9 @@
     <div class="Wrapper">
       <div class="Player_Side">
         <h2 class="BoardTag">Player</h2>
-        <div class="Player_Board"></div>
+        <div>
+          <div class="Player_Board"></div>
+        </div>
 
         <div class="ButtonWrapper">
           <button class="Randomize">Random Position</button>
@@ -29,9 +31,15 @@
       <div class="Computer_Side">
         <h2 class="BoardTag">Computer</h2>
         <div class="Computer_Board"></div>
-        <div class="ButtonWrapper">
-        </div>
+        <div class="ButtonWrapper"></div>
       </div>
     </div>
+    <dialog id="gameEndedDialog">
+      <h2>Game Ended</h2>
+      <p>Thank you for playing!</p>
+      <button id="closeBtn">Close</button>
+    </dialog>
+
+    <button id="openBtn">End Game</button>
   </body>
 </html>

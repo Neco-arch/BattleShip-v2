@@ -6,21 +6,19 @@ class Dom {
     this.computerBoard = document.querySelector(".Computer_Board");
   }
 
-  //CreateBoard
   CreateBoardOnDiv() {
     this.CreateBoard10x10(this.playerBoard);
     this.CreateBoard10x10(this.computerBoard);
   }
 
-  //CreateBoard 10x10
   CreateBoard10x10(Dom_class) {
     Dom_class.innerHTML = "";
     for (let i = 0; i < 10; i++) {
       const Column = document.createElement("div");
-      Column.className = "Column";
+      Column.className = "Cell Column";
       for (let j = 0; j < 10; j++) {
         const Row = document.createElement("div");
-        Row.className = "Row";
+        Row.className = "Cell Row";
         Row.dataset.col = i;
         Row.dataset.row = j;
         Column.appendChild(Row);
@@ -29,68 +27,63 @@ class Dom {
     }
   }
 
-  // Reset Board
-  ResetBoard() {
-    this.CreateBoardOnDiv();
-  }
+  SwitchSide(CurrentTurn) {
+    const PlayerSide = document.querySelector(".Player_Side");
+    const ComputerSide = document.querySelector(".Computer_Side");
 
-  //Change turn (Background Color)
-  ChangeTurn(CurrentTurn) {
-    const Player_Side = document.querySelector(".Player_Side");
-    const Computer_Side = document.querySelector(".Computer_Side");
+    PlayerSide.style.backgroundColor = "";
+    ComputerSide.style.backgroundColor = "";
+
     if (CurrentTurn === "Player") {
-      Computer_Side.style.backgroundColor = "";
-      Player_Side.style.backgroundColor = "rgba(97, 161, 231, 0.25)";
-      return "Computer";
+      PlayerSide.style.backgroundColor = "#6f6c6cff";
     } else if (CurrentTurn === "Computer") {
-      Player_Side.style.backgroundColor = "";
-      Computer_Side.style.backgroundColor = "rgba(97, 161, 231, 0.25)";
-      return "Player";
+      ComputerSide.style.backgroundColor = "#6f6c6cff";
     }
-
-    return false;
   }
 
-  // Display Player ship
   RenderPlayerBoard(playerBoard) {
-    for (let i = 0 ; i < 10 ; i++) {
-      for (let j = 0 ; j < 10 ; j++) {
-        const cell = playerBoard[i][j]
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        const cell = playerBoard[i][j];
         if (cell instanceof ShipFactory) {
-          const StyleCell = document.querySelector(`[data-row="${j}"][data-col="${i}"]`);
-          StyleCell.style.backgroundColor = "blue"
+          const StyleCell = document.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+          StyleCell.style.backgroundColor = "blue";
         }
       }
     }
   }
 
-  // Make Buttons appear and reappear
+  ResetBoard() {
+    this.CreateBoardOnDiv();
+  }
+
   MakeButtonsdisappearandreappear(GameStatus) {
     const Start_Button = document.querySelector(".Start_Game");
     const Randomize_Button = document.querySelector(".Randomize");
+
     if (GameStatus === "ended") {
       Start_Button.style.display = "block";
       Randomize_Button.style.display = "block";
-    }
-
-    if (GameStatus === "Started") {
-      A;
-      Start_Button.style.display = "None";
-      Randomize_Button.style.display = "None";
+    } else if (GameStatus === "Started") {
+      Start_Button.style.display = "none";
+      Randomize_Button.style.display = "none";
     }
   }
 
-  // AttackBoard (Change Color Cell board)
+  ShowStartButton() {
+    const Start_Button = document.querySelector(".Start_Game");
+    Start_Button.style.display = "block";
+  }
+
   AttackBoard(Element, AttackStatus) {
     if (Element) {
       if (AttackStatus === "hit") {
-        Element.style.backgroundColor = "Red";
-      }
-
-      if (AttackStatus === "miss") {
-        Element.style.backgroundColor = "White";
+        Element.style.backgroundColor = "red";
+      } else if (AttackStatus === "miss") {
+        Element.style.backgroundColor = "grey";
       }
     }
   }
 }
+
 export { Dom };
