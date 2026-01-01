@@ -134,3 +134,54 @@ body {
   width: 10%;
   text-align: center;
 }
+
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px 30px;
+  width: 300px;
+  height: 200px;
+  gap: 10px ;
+  border: none;
+  border-radius: 10px;
+  font-family: "Roboto", sans-serif;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  background: white;
+}
+
+/* Optional: dark overlay behind dialog */
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.Restart_Button {
+  width: 100%;
+  height: 40px;
+  border-radius: 3px;
+}
+
+dialog > h2 {
+  text-align: center;
+  font-size: 30px;
+}
+
+.dialog_Content {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px ;
+}
+
+.Helper > h2 {
+  font-size: 24px;
+  color: #f2f2f2;
+  text-align: center;
+}
+
+.Helper {
+  padding: 30px;
+}

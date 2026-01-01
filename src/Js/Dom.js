@@ -35,9 +35,9 @@ class Dom {
     ComputerSide.style.backgroundColor = "";
 
     if (CurrentTurn === "Player") {
-      PlayerSide.style.backgroundColor = "#6f6c6cff";
+      PlayerSide.style.backgroundColor = "#c91313ff";
     } else if (CurrentTurn === "Computer") {
-      ComputerSide.style.backgroundColor = "#6f6c6cff";
+      ComputerSide.style.backgroundColor = "#0c3568ff";
     }
   }
 
